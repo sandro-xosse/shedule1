@@ -1,0 +1,44 @@
+<h2>to-do-list page</h2>
+<header>
+    <button [routerLink]="['/create']"> +Add New</button>
+</header>
+<br>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>N</th>
+                <th>Title</th>
+                <th>Create Date</th>
+                <th>Deadline Date</th>
+                <th>Responsible Person</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="todos.length>0; else eleseBlock">
+                <tr *ngFor="let todo of todos;  let i=index"
+                 [style]="todo.status==todoStatus.pending? {'background': 'yellow'}: {'background': 'lightgreen'}"
+                 >
+                    <td>{{i+1}}</td>
+                    <td>{{todo.title}}</td>
+                    <td>{{todo.createDate |customDate }}</td>
+                    <td>{{todo.deadline |customDate }}</td>
+                    <td>{{todo.responsiblePersonName }}</td>
+                    <td>{{todoStatus[todo.status] }}</td>
+                    
+                    <td>
+                        <button style="background-color:rgb(103, 152, 244);" (click)="statusChange(todo)">change status</button>
+                        <button style="background-color:orange;" [routerLink]="['/edit/', todo.id]">update</button>
+                        <button style="background-color: rgb(243, 99, 99);"  (click)="onDelete(todo.id)">delete</button>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-template #eleseBlock>
+                 to-do not yet
+            </ng-template>
+        </tbody>
+    </table>
+</div>
